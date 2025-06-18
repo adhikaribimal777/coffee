@@ -1,0 +1,307 @@
+/* --- Google Font Import --- */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Noto+Serif+JP:wght@400;700&display=swap');
+
+/* --- General & Smooth Scroll --- */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Noto Serif JP', serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f1ea; /* Soft, warm off-white */
+    color: #3d3d3d; /* Dark grey for text */
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* --- Header Styles --- */
+.main-header {
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd;
+    position: sticky; /* Make header stick to top */
+    top: 0;
+    z-index: 1000;
+}
+
+.main-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-header .logo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #4a5c48; /* Deep, calm green */
+}
+
+.main-header nav a {
+    font-family: 'Montserrat', sans-serif;
+    color: #4a5c48;
+    text-decoration: none;
+    margin-left: 25px;
+    font-size: 1em;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.main-header nav a:hover {
+    color: #b48c6a; /* Warm wood color */
+}
+
+/* --- Hero Section --- */
+.hero-section {
+    /* Use a high-quality image of coffee or a cafe interior */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://via.placeholder.com/1500x800.png?text=Komorebi+Cafe+View');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 90vh;
+}
+
+.hero-content h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3.5em;
+    margin: 0;
+    font-weight: 700;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.hero-content p {
+    font-size: 1.5em;
+    margin-top: 10px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Features Section --- */
+.features-section {
+    padding: 80px 0;
+    background-color: #fff;
+}
+
+.features-section .container {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    gap: 30px;
+}
+
+.feature-box {
+    width: 30%;
+    padding: 20px;
+}
+
+.feature-box img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #f4f1ea;
+    transition: transform 0.3s ease-in-out;
+}
+
+.feature-box:hover img {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.feature-box h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5em;
+    color: #4a5c48;
+    margin-top: 20px;
+}
+
+/* --- About Us Section --- */
+.about-section {
+    padding: 80px 0;
+    background-color: #f4f1ea;
+}
+
+.about-section .container {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.about-image {
+    flex: 1; /* Takes up 1 part of the space */
+}
+
+.about-image img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.about-content {
+    flex: 1.2; /* Takes up 1.2 parts of the space */
+}
+
+.about-content h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.5em;
+    color: #4a5c48;
+    margin-top: 0;
+}
+
+/* --- Footer Section --- */
+.footer-section {
+    background-color: #4a5c48; /* Deep green */
+    color: #f4f1ea;
+    padding: 50px 0;
+    text-align: center;
+}
+
+.footer-section h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+}
+
+.footer-section p {
+    margin: 10px 0;
+}
+
+.social-links {
+    margin: 20px 0;
+}
+
+.social-links a {
+    color: #f4f1ea;
+    text-decoration: none;
+    margin: 0 15px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s;
+}
+
+.social-links a:hover {
+    border-bottom-color: #b48c6a;
+}
+
+.copyright {
+    margin-top: 30px;
+    font-size: 0.9em;
+    opacity: 0.7;
+}
+
+
+/* --- Responsive styles for smaller screens --- */
+@media (max-width: 768px) {
+    .main-header .container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .main-header nav a {
+        margin: 0 10px;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5em;
+    }
+    .hero-content p {
+        font-size: 1.2em;
+    }
+    
+    .features-section .container,
+    .about-section .container {
+        flex-direction: column;
+    }
+
+    .feature-box {
+        width: 80%;
+        margin-bottom: 30px;
+    }
+}
+
+/* --- Hero Section --- */
+.hero-section {
+    /* This now points to your uploaded image */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/assets/images/download.jpeg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 90vh;
+}
+.logo {
+    /* background-image: url('/assets/images/komorebi_01.jpg'); Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 150px; /* Adjust as needed */
+    display: flex; /* Helps in centering content if needed */
+    justify-content: center;
+    align-items: center;
+    color: rgb(129, 61, 61); /* For text readability */
+    font-size: 2em; /* Example */
+    text-shadow: 2px 2px 4px rgba(231, 206, 14, 0.7);
+}
+/* --- New Page Definition Section --- */
+.definition-section {
+    padding: 80px 20px;
+    background-color: #fff;
+    margin-top: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    text-align: center; /* Center the content if desired */
+}
+
+.definition-section h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3em;
+    color: #4a5c48;
+    margin-bottom: 25px;
+}
+
+.definition-section p {
+    font-size: 1.1em;
+    line-height: 1.8;
+    max-width: 800px; /* Limit paragraph width for readability */
+    margin: 0 auto 15px auto; /* Center paragraphs */
+}
+
+.definition-section img {
+    margin-bottom: 20px; /* Space below image */
+}
+
+.definition-section a {
+    color: #b48c6a; /* Match your accent color */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.definition-section a:hover {
+    color: #4a5c48;
+}
+
+/* Responsive adjustments for definition section */
+@media (max-width: 768px) {
+    .definition-section h1 {
+        font-size: 2.2em;
+    }
+    .definition-section p {
+        font-size: 1em;
+    }
+}
