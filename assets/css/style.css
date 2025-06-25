@@ -129,8 +129,8 @@ body {
 }
 
 .feature-box {
-    width: 30%;
-    padding: 20px;
+    width: 50%;
+    padding: 40px;
 }
 
 .feature-box img {
@@ -138,18 +138,19 @@ body {
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid #f4f1ea;
+    border: 4px solid #b65a18;
     transition: transform 0.3s ease-in-out;
+    
 }
 
 .feature-box:hover img {
-    transform: scale(1.1) rotate(5deg);
+    transform: scale(1.1) rotate(20deg);
 }
 
 .feature-box h3 {
     font-family: 'Montserrat', sans-serif;
     font-size: 1.5em;
-    color: #4a5c48;
+    color: #1b5c0f;
     margin-top: 20px;
 }
 
