@@ -80,8 +80,28 @@ body {
     text-align: center;
     height: 90vh;
 }
-
+/* --- Take Out Section (for index.html) --- */
+.take-out-section {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/assets/images/food-packing.png');
+    /* Pointing to user's image */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 90vh;
+}
 .hero-content h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3.5em;
+    margin: 0;
+    font-weight: 700;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    
+}
+.take-out-content h2 {
     font-family: 'Montserrat', sans-serif;
     font-size: 3.5em;
     margin: 0;
@@ -697,3 +717,27 @@ body {
 
 .container {
     max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}/* Styles for the map embed in the footer */
+.map-container {
+    width: 100%; /* Make sure the container takes full width */
+    margin-top: 30px; /* Add some space above the map */
+    margin-bottom: 20px; /* Add some space below the map */
+    overflow: hidden; /* Helps contain the iframe properly */
+}
+
+.google-map {
+    width: 100%; /* Make the map responsive within its container */
+    height: 300px; /* Set a fixed height, adjust as needed */
+    border: 0; /* Remove default iframe border */
+    border-radius: 8px; /* Optional: add rounded corners */
+}
+
+/* You might want to add/adjust the .copyright style here as well if needed */
+.copyright {
+    text-align: center; /* Center the copyright text */
+    padding-top: 15px; /* Space above copyright */
+    font-size: 0.9em; /* Smaller font size */
+    color: #aaa; /* Lighter color */
+}
