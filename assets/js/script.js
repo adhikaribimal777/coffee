@@ -1,39 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Get references to key elements in the HTML
     const cartItemsContainer = document.getElementById('cart-items');
     const totalPriceSpan = document.getElementById('total-price');
     const emptyCartMessage = document.getElementById('empty-cart-message');
     const addToCartButtons = document.querySelectorAll('.add-to-cart-button');
 
-    // Initialize an empty array to hold our cart items
     let cart = [];
 
-    // --- Utility Functions ---
-
-    // Saves the current state of the cart to the browser's local storage
+    // Function to save cart to localStorage
     const saveCart = () => {
         localStorage.setItem('komorebiCart', JSON.stringify(cart));
     };
 
-    // Loads the cart from local storage when the page first loads
+    // Function to load cart from localStorage
     const loadCart = () => {
         const storedCart = localStorage.getItem('komorebiCart');
         if (storedCart) {
             cart = JSON.parse(storedCart);
-            updateCartDisplay(); // Update the UI with loaded items
+            updateCartDisplay();
         }
     };
 
-    // Updates the visual representation of the cart in the HTML
+    // Function to update the cart display and total
     const updateCartDisplay = () => {
-        cartItemsContainer.innerHTML = ''; // Clear out existing items in the displayed cart
+        cartItemsContainer.innerHTML = ''; // Clear existing cart items
 
         if (cart.length === 0) {
-            // If the cart is empty, show the "Your cart is empty" message
-            emptyCartMessage.style.display = 'block';
+            emptyCartMessage.style.display = 'block'; // Show message
         } else {
-            // If there are items, hide the empty message and display each item
-            emptyCartMessage.style.display = 'none';
+            emptyCartMessage.style.display = 'none'; // Hide message
             cart.forEach((item, index) => {
                 const listItem = document.createElement('li');
                 listItem.innerHTML = `
@@ -46,69 +40,64 @@ document.addEventListener('DOMContentLoaded', () => {
                 cartItemsContainer.appendChild(listItem);
             });
         }
-        updateCartTotal(); // Recalculate and display the total price
-        saveCart(); // Save the updated cart to local storage
+        updateCartTotal();
+        saveCart(); // Save cart after every update
     };
 
-    // Calculates and displays the total price of all items in the cart
+    // Function to update the total price
     const updateCartTotal = () => {
         const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         totalPriceSpan.textContent = total;
     };
 
-    // --- Event Listeners ---
-
-    // Add event listeners to all "Add to Cart" buttons
+    // Event listener for "Add to Cart" buttons
     addToCartButtons.forEach(button => {
         button.addEventListener('click', (event) => {
-            const menuItem = event.target.closest('.menu-item'); // Get the parent menu-item div
-            const itemName = menuItem.dataset.name; // Get item name from data attribute
-            const itemPrice = parseInt(menuItem.dataset.price); // Get item price from data attribute
-            const itemQuantityInput = menuItem.querySelector('.item-quantity'); // Get the quantity input field
-            const quantity = parseInt(itemQuantityInput.value); // Get the quantity the user wants to add
+            const menuItem = event.target.closest('.menu-item');
+            const itemName = menuItem.dataset.name;
+            const itemPrice = parseInt(menuItem.dataset.price);
+            const itemQuantityInput = menuItem.querySelector('.item-quantity');
+            const quantity = parseInt(itemQuantityInput.value);
 
             if (quantity > 0) {
-                // Check if the item already exists in the cart
                 const existingItemIndex = cart.findIndex(item => item.name === itemName);
 
                 if (existingItemIndex > -1) {
-                    // If it exists, just update its quantity
+                    // Item already in cart, update quantity
                     cart[existingItemIndex].quantity += quantity;
                 } else {
-                    // If it's a new item, add it to the cart array
+                    // Add new item to cart
                     cart.push({ name: itemName, price: itemPrice, quantity: quantity });
                 }
-                updateCartDisplay(); // Refresh the cart display
-                itemQuantityInput.value = 1; // Reset the quantity input to 1 for next time
+                updateCartDisplay();
+                itemQuantityInput.value = 1; // Reset quantity input to 1 after adding
             } else {
                 alert('Please enter a quantity greater than 0.');
             }
         });
     });
 
-    // Add event listener to the cart items container for "Remove" buttons
-    // Using event delegation because remove buttons are added dynamically
+    // Event listener for "Remove" buttons in the cart
     cartItemsContainer.addEventListener('click', (event) => {
         if (event.target.classList.contains('remove-item-button')) {
-            const indexToRemove = event.target.dataset.index; // Get the index of the item to remove
-            cart.splice(indexToRemove, 1); // Remove the item from the cart array
-            updateCartDisplay(); // Refresh the cart display
+            const indexToRemove = event.target.dataset.index;
+            cart.splice(indexToRemove, 1); // Remove item from cart array
+            updateCartDisplay();
         }
     });
 
-    // Event listener for the "Proceed to Checkout" button
+    // Load cart when the page loads
+    loadCart();
+
+    // Optional: Add functionality for the checkout button (e.g., alert a message)
     const checkoutButton = document.getElementById('checkout-button');
     checkoutButton.addEventListener('click', (event) => {
-        event.preventDefault(); // Prevent the default link behavior (e.g., navigating to #)
+        event.preventDefault(); // Prevent default link behavior
         if (cart.length > 0) {
-            alert(`Proceeding to checkout! (This is a demonstration.) Your total is ¥${totalPriceSpan.textContent}`);
-            // In a real application, you would integrate with a payment gateway here.
+            alert('Proceeding to checkout! (This is a demonstration.) Your total is ¥' + totalPriceSpan.textContent);
+            // In a real application, you'd redirect to a checkout page or initiate payment.
         } else {
             alert('Your cart is empty. Please add items before checking out.');
         }
     });
-
-    // --- Initial Load ---
-    // Load the cart from local storage when the page first loads
-    loadCart();
 });
