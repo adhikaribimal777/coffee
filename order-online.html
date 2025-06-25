@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Komorebi Cafe - Online Ordering</title>
-    <!-- Link to the external stylesheet -->
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -109,8 +108,8 @@
                     </div>
                 </div>
                 <div class="menu-item" data-name="Matcha Financier" data-price="420">
+                    <img src="./assets/images/Matcha.jpeg" alt="Matcha Financier">
                     <div class="item-details">
-                        <img src="./assets/images/Matcha.jpeg" alt="Matcha Financier">
                         <h3>Matcha Financier</h3>
                         <p>A rich, moist cake with authentic Japanese matcha.</p>
                     </div>
@@ -123,24 +122,41 @@
             </div>
         </section>
 
-        <!-- Shopping Cart Section -->
         <section id="shopping-cart-section" class="container">
             <h2>Your Order</h2>
             <ul id="cart-items">
-                <!-- Cart items will be dynamically added here by JavaScript -->
                 <li id="empty-cart-message" style="text-align: center; color: #888;">Your cart is empty. Please add some delicious items!</li>
             </ul>
             <div id="cart-total">
                 Total: ¥<span id="total-price">0</span>
             </div>
-            <a href="#" class="checkout-button" id="checkout-button">
+            <button class="checkout-button" id="checkout-button">
                 Proceed to Checkout
-            </a>
-            <p class="external-link-note">
+            </button>
+        </section>
+
+        <section id="customer-details-section" class="container" style="display: none;">
+            <h2>Your Contact Information</h2>
+            <form id="customer-form">
+                <div class="form-group">
+                    <label for="customer-name">Name:</label>
+                    <input type="text" id="customer-name" name="customerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer-email">Email:</label>
+                    <input type="email" id="customer-email" name="customerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer-phone">Phone Number:</label>
+                    <input type="tel" id="customer-phone" name="customerPhone" required>
+                </div>
+                <button type="submit" class="submit-details-button">Place Order</button>
+            </form>
+            <p class="external-link-note" style="text-align: center; margin-top: 20px;">
                 (This is a demonstration. A real checkout process would involve a secure payment gateway.)
             </p>
         </section>
-    </main>
+        </main>
 
     <footer id="contact" class="footer-section">
         <div class="container">
@@ -165,6 +181,10 @@
         const totalPriceSpan = document.getElementById('total-price');
         const emptyCartMessage = document.getElementById('empty-cart-message');
         const checkoutButton = document.getElementById('checkout-button');
+        const orderSection = document.querySelector('.order-section'); // Get the menu section
+        const shoppingCartSection = document.getElementById('shopping-cart-section'); // Get the shopping cart section
+        const customerDetailsSection = document.getElementById('customer-details-section'); // New: Customer details section
+        const customerForm = document.getElementById('customer-form'); // New: Customer form
 
         // Function to render cart items
         function renderCart() {
@@ -172,6 +192,7 @@
             let total = 0;
 
             if (cart.length === 0) {
+                cartItemsList.appendChild(emptyCartMessage);
                 emptyCartMessage.style.display = 'block'; // Show empty message
                 checkoutButton.style.display = 'none'; // Hide checkout button if cart is empty
             } else {
@@ -199,7 +220,8 @@
                 const menuItem = event.target.closest('.menu-item');
                 const itemName = menuItem.dataset.name;
                 const itemPrice = parseInt(menuItem.dataset.price);
-                const itemQuantity = parseInt(menuItem.querySelector('.item-quantity').value);
+                const quantityInput = menuItem.querySelector('.item-quantity');
+                const itemQuantity = parseInt(quantityInput.value);
 
                 if (itemQuantity <= 0) {
                     alert('Please enter a quantity greater than 0.');
@@ -209,10 +231,8 @@
                 const existingItemIndex = cart.findIndex(item => item.name === itemName);
 
                 if (existingItemIndex > -1) {
-                    // Item already in cart, update quantity
                     cart[existingItemIndex].quantity += itemQuantity;
                 } else {
-                    // Add new item to cart
                     cart.push({
                         name: itemName,
                         price: itemPrice,
@@ -220,8 +240,7 @@
                     });
                 }
                 renderCart(); // Re-render cart after adding item
-                // Reset quantity input to 1 after adding
-                menuItem.querySelector('.item-quantity').value = 1;
+                quantityInput.value = 1; // Reset quantity input to 1 after adding
             });
         });
 
@@ -237,28 +256,53 @@
         // Initial render of the cart when the page loads
         document.addEventListener('DOMContentLoaded', renderCart);
 
-        // Placeholder for Checkout button functionality
+        // Modify Checkout button functionality to show customer details form
         checkoutButton.addEventListener('click', (event) => {
             event.preventDefault(); // Prevent default link behavior
             if (cart.length === 0) {
                 alert('Your cart is empty. Please add items before checking out.');
                 return;
             }
-            // In a real application, you would send the 'cart' data to a backend
-            // for processing payments and fulfilling the order.
-            // For this demo, we'll just show an alert with the order summary.
+
+            // Hide menu and shopping cart, show customer details
+            orderSection.style.display = 'none';
+            shoppingCartSection.style.display = 'none';
+            customerDetailsSection.style.display = 'block';
+        });
+
+        // New: Event listener for the customer form submission
+        customerForm.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent default form submission
+
+            const customerName = document.getElementById('customer-name').value;
+            const customerEmail = document.getElementById('customer-email').value;
+            const customerPhone = document.getElementById('customer-phone').value;
+
+            // Basic validation
+            if (!customerName || !customerEmail || !customerPhone) {
+                alert('Please fill in all customer details.');
+                return;
+            }
+
+            // Construct order summary with customer details
             let orderSummary = "Your Order Summary:\n\n";
             cart.forEach(item => {
                 orderSummary += `${item.name} x ${item.quantity} = ¥${(item.price * item.quantity).toLocaleString()}\n`;
             });
             orderSummary += `\nTotal: ¥${totalPriceSpan.textContent}`;
+            orderSummary += `\n\nCustomer Details:\nName: ${customerName}\nEmail: ${customerEmail}\nPhone: ${customerPhone}`;
             orderSummary += "\n\nThank you for your order! This is a demo. In a real app, you'd proceed to payment.";
-            alert(orderSummary); // Using alert for demo purposes
-            // You might want to clear the cart after a successful (demo) checkout
-            // cart = [];
-            // renderCart();
-        });
 
+            alert(orderSummary); // Using alert for demo purposes
+
+            // Clear the cart and reset the display
+            cart = [];
+            renderCart(); // This will also hide the checkout button
+            customerForm.reset(); // Clear the form fields
+            customerDetailsSection.style.display = 'none'; // Hide customer details
+            orderSection.style.display = 'block'; // Show menu section again
+            shoppingCartSection.style.display = 'block'; // Show shopping cart section again
+        });
     </script>
 
 </body>

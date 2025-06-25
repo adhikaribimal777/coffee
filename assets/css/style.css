@@ -10,20 +10,16 @@ body {
     font-family: 'Noto Serif JP', serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f1ea;
-    /* Soft, warm off-white */
-    color: #3d3d3d;
-    /* Dark grey for text */
+    background-color: #f4f1ea; /* Soft, warm off-white */
+    color: #3d3d3d; /* Dark grey for text */
     font-size: 16px;
     line-height: 1.7;
 }
 
 .container {
-    max-width: 1100px;
-    /* Adjusted for general pages */
+    max-width: 1100px; /* Adjusted for general pages */
     margin: 0 auto;
-    padding: 0 20px;
-    /* Added padding for consistency */
+    padding: 0 20px; /* Added padding for consistency */
 }
 
 /* --- Header Styles --- */
@@ -32,10 +28,10 @@ body {
     backdrop-filter: blur(10px);
     padding: 15px 0;
     border-bottom: 1px solid #ddd;
-    position: sticky;
-    /* Make header stick to top */
+    position: sticky; /* Make header stick to top */
     top: 0;
     z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Soft shadow for header */
 }
 
 .main-header .container {
@@ -48,8 +44,7 @@ body {
     font-family: 'Montserrat', sans-serif;
     font-size: 1.8em;
     font-weight: 700;
-    color: #4a5c48;
-    /* Deep, calm green */
+    color: #4a5c48; /* Deep, calm green */
 }
 
 .main-header nav a {
@@ -63,14 +58,12 @@ body {
 }
 
 .main-header nav a:hover {
-    color: #b48c6a;
-    /* Warm wood color */
+    color: #b48c6a; /* Warm wood color */
 }
 
 /* --- Hero Section (for index.html) --- */
 .hero-section {
     background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/assets/images/download.jpeg');
-    /* Pointing to user's image */
     background-size: cover;
     background-position: center;
     color: white;
@@ -80,28 +73,8 @@ body {
     text-align: center;
     height: 90vh;
 }
-/* --- Take Out Section (for index.html) --- */
-.take-out-section {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/assets/images/food-packing.png');
-    /* Pointing to user's image */
-    background-size: cover;
-    background-position: center;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: 90vh;
-}
+
 .hero-content h1 {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 3.5em;
-    margin: 0;
-    font-weight: 700;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-    
-}
-.take-out-content h2 {
     font-family: 'Montserrat', sans-serif;
     font-size: 3.5em;
     margin: 0;
@@ -129,7 +102,7 @@ body {
 }
 
 .feature-box {
-    width: 50%;
+    flex: 1; /* Make feature boxes flex equally */
     padding: 40px;
 }
 
@@ -138,9 +111,8 @@ body {
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid #b65a18;
+    border: 4px solid #b65a18; /* Retained user's specific border color */
     transition: transform 0.3s ease-in-out;
-    
 }
 
 .feature-box:hover img {
@@ -150,7 +122,7 @@ body {
 .feature-box h3 {
     font-family: 'Montserrat', sans-serif;
     font-size: 1.5em;
-    color: #1b5c0f;
+    color: #1b5c0f; /* Dark green */
     margin-top: 20px;
 }
 
@@ -212,7 +184,6 @@ body {
 }
 
 .definition-section .definition-image {
-    /* Added class for consistency */
     max-width: 100%;
     height: auto;
     border-radius: 8px;
@@ -232,32 +203,43 @@ body {
 
 /* --- Take Out Section (for index.html) --- */
 .take-out-section {
-    padding: 60px 20px;
-    background-color: #f4f1ea;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/assets/images/food-packing.png');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    display: flex;
+    flex-direction: column; /* Ensure content stacks vertically */
+    justify-content: center;
+    align-items: center;
     text-align: center;
+    height: 90vh; /* Retained user's height */
+    padding: 60px 20px; /* Added padding for content spacing */
     border-radius: 8px;
     margin-top: 30px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
-.take-out-section h2 {
+.take-out-content h2 {
     font-family: 'Montserrat', sans-serif;
-    color: #4a5c48;
-    font-size: 2.5em;
-    margin-bottom: 20px;
+    font-size: 3.5em;
+    margin: 0;
+    font-weight: 700;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    color: white; /* Explicitly set for contrast */
 }
 
 .take-out-section p {
     font-size: 1.2em;
     line-height: 1.8;
     max-width: 800px;
-    margin: 0 auto 30px;
+    margin: 20px auto 30px; /* Adjusted margin */
+    color: white; /* Explicitly set for contrast */
 }
 
 .take-out-section .button {
     display: inline-block;
     padding: 15px 30px;
-    background-color: #4a5c48;
+    background-color: #4a5c48; /* Dark green */
     color: #fff;
     text-decoration: none;
     border-radius: 8px;
@@ -273,10 +255,10 @@ body {
     transform: translateY(-1px);
 }
 
-/* --- Online Ordering Page Styles (for online-ordering.html) --- */
+/* --- Online Ordering Page Styles --- */
 .order-section {
     padding: 60px 20px;
-    background-color: #fcfaf6;
+    background-color: #fcfaf6; /* Lighter off-white */
     margin-top: 30px;
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -307,7 +289,7 @@ body {
 
 .menu-category h2 {
     font-family: 'Montserrat', sans-serif;
-    color: #7b8e78;
+    color: #7b8e78; /* Muted green */
     font-size: 2.2em;
     margin-bottom: 25px;
     border-bottom: 2px solid #ddd;
@@ -357,12 +339,13 @@ body {
     font-size: 0.95em;
     color: #777;
     margin-bottom: 0;
+    text-align: left; /* Ensure text alignment */
 }
 
 .item-price {
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
-    color: #8b6e4d;
+    color: #8b6e4d; /* Warm brown for price */
     font-size: 1.3em;
     white-space: nowrap;
 }
@@ -388,7 +371,7 @@ body {
 
 .add-to-cart-button {
     padding: 10px 15px;
-    background-color: #a0c29f;
+    background-color: #a0c29f; /* Light green */
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -400,14 +383,14 @@ body {
 }
 
 .add-to-cart-button:hover {
-    background-color: #88af87;
+    background-color: #88af87; /* Darker green */
     transform: translateY(-1px);
 }
 
 /* Shopping Cart Styles */
 #shopping-cart-section {
     padding: 40px 20px;
-    background-color: #e6e3dd;
+    background-color: #e6e3dd; /* Slightly darker off-white for contrast */
     margin-top: 50px;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
@@ -449,7 +432,7 @@ body {
 }
 
 .remove-item-button {
-    background-color: #e74c3c;
+    background-color: #e74c3c; /* Red */
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -502,6 +485,86 @@ body {
     text-align: center;
 }
 
+/* --- New Styles for Customer Details Section --- */
+#customer-details-section {
+    background: #fff; /* Retained user's background color */
+    padding: 20px; /* Retained user's padding */
+    border-radius: 8px; /* Retained user's border-radius */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Changed shadow to neutral gray from red */
+    margin-top: 30px; /* Retained user's margin-top */
+    text-align: center; /* Center content in the section */
+    max-width: 960px; /* Aligned with other sections */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#customer-details-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: 'Montserrat', sans-serif; /* Consistent font */
+    color: #4a5c48; /* Consistent color */
+    font-size: 2em; /* Consistent size */
+}
+
+#customer-form {
+    text-align: left; /* Align form elements to the left */
+    max-width: 500px; /* Limit form width for better readability */
+    margin: 0 auto; /* Center the form within its section */
+}
+
+.form-group {
+    margin-bottom: 15px; /* Retained user's margin-bottom */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px; /* Retained user's margin-bottom */
+    font-weight: bold; /* Retained user's font-weight */
+    color: #5a4b3d; /* Consistent color */
+    font-family: 'Montserrat', sans-serif; /* Consistent font */
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"] {
+    width: calc(100% - 22px); /* Retained user's width calculation */
+    padding: 10px; /* Retained user's padding */
+    border: 1px solid #ccc; /* Retained user's border */
+    border-radius: 4px; /* Retained user's border-radius */
+    font-size: 1em; /* Retained user's font-size */
+    box-sizing: border-box; /* Ensures padding and border are included in width */
+    font-family: 'Noto Serif JP', serif; /* Consistent font */
+    color: #3d3d3d; /* Consistent color */
+}
+
+.form-group input:focus {
+    border-color: #b48c6a; /* Warm wood color on focus */
+    outline: none;
+    box-shadow: 0 0 5px rgba(180, 140, 106, 0.5); /* Soft glow on focus */
+}
+
+.submit-details-button {
+    width: 100%; /* Retained user's width */
+    padding: 15px; /* Retained user's padding */
+    font-size: 1.2em; /* Retained user's font-size */
+    margin-top: 20px; /* Retained user's margin-top */
+    /* Inherits other button styles from .checkout-button if desired, or define here */
+    background-color: #4a5c48; /* Apply button theme color */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.submit-details-button:hover {
+    background-color: #3b4d3a;
+    transform: translateY(-1px);
+}
+
 /* --- New Styles for Peaceful Space Highlight Section --- */
 .highlight-section {
     padding: 40px 20px;
@@ -517,7 +580,6 @@ body {
 
 .highlight-item:last-child {
     margin-bottom: 0;
-    /* Remove margin from the last item */
 }
 
 .highlight-title {
@@ -547,7 +609,6 @@ body {
 
 .back-to-features-link a {
     color: #b48c6a;
-    /* Consistent with other link styles */
     text-decoration: none;
     font-weight: bold;
     transition: color 0.3s;
@@ -555,13 +616,12 @@ body {
 
 .back-to-features-link a:hover {
     color: #4a5c48;
-    /* Consistent with other link styles */
 }
 
 /* --- Footer Section --- */
 .footer-section {
-    background-color: #4a5c48;
-    color: #f4f1ea;
+    background-color: #4a5c48; /* Deep green */
+    color: #f4f1ea; /* Soft off-white */
     padding: 50px 0;
     text-align: center;
     margin-top: 50px;
@@ -571,11 +631,12 @@ body {
     font-family: 'Montserrat', sans-serif;
     font-size: 1.5em;
     margin-bottom: 20px;
-    color: #a0c29f;
+    color: #a0c29f; /* Lighter green */
 }
 
 .footer-section p {
     margin: 10px 0;
+    font-size: 0.95em;
 }
 
 .social-links {
@@ -593,14 +654,35 @@ body {
 }
 
 .social-links a:hover {
-    border-bottom-color: #b48c6a;
+    border-bottom-color: #b48c6a; /* Accent color on hover */
+}
+
+/* Styles for the map embed in the footer */
+.map-container {
+    width: 100%; /* Make sure the container takes full width */
+    max-width: 800px; /* Limit max width for better appearance */
+    margin: 30px auto 20px auto; /* Center the map and add vertical space */
+    overflow: hidden; /* Helps contain the iframe properly */
+    border-radius: 8px; /* Optional: add rounded corners */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+.google-map {
+    width: 100%; /* Make the map responsive within its container */
+    height: 350px; /* Set a fixed height, adjusted slightly for more visibility */
+    border: 0; /* Remove default iframe border */
+    display: block; /* Remove extra space below iframe */
 }
 
 .copyright {
-    margin-top: 30px;
-    font-size: 0.9em;
-    opacity: 0.7;
+    text-align: center; /* Center the copyright text */
+    padding-top: 15px; /* Space above copyright */
+    font-size: 0.9em; /* Smaller font size */
+    color: #a0c29f; /* Lighter green from theme for better visibility */
+    margin-top: 20px; /* Ensure spacing from map */
+    opacity: 1; /* Ensure visibility, overriding previous opacity */
 }
+
 
 /* --- Responsive styles for smaller screens --- */
 @media (max-width: 768px) {
@@ -634,7 +716,8 @@ body {
     }
 
     .feature-box {
-        width: 80%;
+        width: 100%; /* Full width on small screens */
+        max-width: 400px; /* Limit max width */
         margin-bottom: 30px;
     }
 
@@ -658,8 +741,7 @@ body {
     }
 
     .menu-item img {
-        margin-bottom: 10px;
-        /* Space below image on small screens */
+        margin-bottom: 10px; /* Space below image on small screens */
         margin-right: 0;
     }
 
@@ -669,76 +751,101 @@ body {
         margin-bottom: 10px;
     }
 
+    .item-details p {
+        text-align: left; /* Ensure description remains left-aligned */
+    }
+
     .item-price {
         margin-bottom: 10px;
         width: 100%;
-        /* Take full width on small screens */
         text-align: left;
-        /* Align price to the left */
     }
 
     .item-controls {
         width: 100%;
         justify-content: flex-start;
-        /* Align controls to the left on small screens */
         margin-left: 0;
     }
 
     #cart-total {
-        text-align: center;
+        text-align: right; /* Keep total aligned right, or center if preferred */
+    }
+
+    /* Customer details form responsiveness */
+    #customer-form {
+        max-width: 100%; /* Allow form to take full width */
+        padding: 0 10px; /* Add some padding */
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 10px;
+    }
+    h1 {
+        font-size: 2em;
+    }
+    h2 {
+        font-size: 1.8em;
+    }
+    .main-header .logo {
+        font-size: 1.6em;
+    }
+    .main-nav a {
+        margin: 5px 5px;
+        font-size: 0.75em;
+    }
+    .hero-content h1, .take-out-content h2 {
+        font-size: 2em;
+    }
+    .hero-content p, .take-out-section p {
+        font-size: 1em;
+    }
+    .feature-box {
+        padding: 20px;
+    }
+    .feature-box h3 {
+        font-size: 1.2em;
+    }
+    .order-section h1 {
+        font-size: 2em;
+    }
+    .menu-category h2 {
+        font-size: 1.8em;
+    }
+    .item-details h3 {
+        font-size: 1.2em;
+    }
+    .item-price {
+        font-size: 1.1em;
+    }
+    .add-to-cart-button, .checkout-button, .submit-details-button {
+        padding: 10px 15px;
+        font-size: 1em;
+    }
+    #cart-total {
+        font-size: 1.5em;
+    }
+    .form-group label {
+        font-size: 1em;
+    }
+    .form-group input {
+        padding: 10px;
+    }
+    .footer-section h3 {
+        font-size: 1.3em;
+    }
+    .social-links a {
+        font-size: 1em;
+        margin: 0 8px;
     }
 }
 
 /* New CSS for empty cart message */
-.empty-cart-message {
+#empty-cart-message { /* Changed class to ID to match JS and provide specific styling */
     text-align: center;
     color: #888;
-    font-style: italic; /* Added for better visual cue */
+    font-style: italic;
     padding: 10px 0;
-
-    /* --- Google Font Import --- */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Noto+Serif+JP:wght@400;700&display=swap');
-
-/* --- General & Smooth Scroll --- */
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    font-family: 'Noto Serif JP', serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f1ea;
-    /* Soft, warm off-white */
-    color: #3d3d3d;
-    /* Dark grey for text */
-    font-size: 16px;
-    line-height: 1.7;
-}
-
-.container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 20px;
-}/* Styles for the map embed in the footer */
-.map-container {
-    width: 100%; /* Make sure the container takes full width */
-    margin-top: 30px; /* Add some space above the map */
-    margin-bottom: 20px; /* Add some space below the map */
-    overflow: hidden; /* Helps contain the iframe properly */
-}
-
-.google-map {
-    width: 100%; /* Make the map responsive within its container */
-    height: 300px; /* Set a fixed height, adjust as needed */
-    border: 0; /* Remove default iframe border */
-    border-radius: 8px; /* Optional: add rounded corners */
-}
-
-/* You might want to add/adjust the .copyright style here as well if needed */
-.copyright {
-    text-align: center; /* Center the copyright text */
-    padding-top: 15px; /* Space above copyright */
-    font-size: 0.9em; /* Smaller font size */
-    color: #aaa; /* Lighter color */
+    list-style-type: none; /* Ensure no bullet point */
 }
