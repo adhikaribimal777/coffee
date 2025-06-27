@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hand-Dripped Coffee - Komorebi Cafe</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">Komorebi Cafe</div>
+            <nav class="main-nav">
+                <a href="./index.html">Home</a>
+                <a href="./index.html#features">Features</a>
+                <a href="./index.html#about">Our Story</a>
+                <a href="./index.html#contact">Contact</a>
+                <a href="./order-online.html">Take Out</a>
+            </nav>
+        </div>
+    </header>
+<section id="customer-details-section" class="container">
+    <h2>Your Contact Information</h2>
+    <form id="customer-form">
+        <div class="form-group">
+            <label for="customer-name">Name:</label>
+            <input type="text" id="customer-name" name="customerName" required>
+        </div>
+        <div class="form-group">
+            <label for="customer-email">Email:</label>
+            <input type="email" id="customer-email" name="customerEmail" required>
+        </div>
+        <div class="form-group">
+            <label for="customer-phone">Phone Number:</label>
+            <input type="tel" id="customer-phone" name="customerPhone" required>
+        </div>
+
+        <div class="form-group">
+            <p>Order Type:</p>
+            <input type="radio" id="pickup-option" name="delivery-pickup" value="pickup" checked>
+            <label for="pickup-option">Pickup</label>
+            <br>
+            <input type="radio" id="delivery-option" name="delivery-pickup" value="delivery">
+            <label for="delivery-option">Delivery</label>
+        </div>
+
+        <div id="delivery-details-group" style="display: none;">
+            <div class="form-group">
+                <label for="postal-code">Postal Code:</label>
+                <input type="text" id="postal-code" name="postalCode">
+            </div>
+            <div class="form-group" id="customer-location-group" style="display: none;">
+                <label for="customer-location">Delivery Location (Address):</label>
+                <input type="text" id="customer-location" name="customerLocation">
+            </div>
+        </div>
+
+        <button type="submit" class="submit-details-button">Place Order</button>
+    </form>
+    <p class="external-link-note" style="text-align: center; margin-top: 20px;">
+        (This is a demonstration. A real checkout process would involve a secure payment gateway.)
+    </p>
+</section>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const deliveryRadio = document.getElementById('delivery-option');
+        const pickupRadio = document.getElementById('pickup-option');
+        const deliveryDetailsGroup = document.getElementById('delivery-details-group');
+        const postalCodeInput = document.getElementById('postal-code');
+        const customerLocationGroup = document.getElementById('customer-location-group');
+        const customerLocationInput = document.getElementById('customer-location');
+        const customerForm = document.getElementById('customer-form');
+
+        // Function to toggle visibility of delivery details (postal code + full address)
+        const toggleDeliveryDetails = () => {
+            if (deliveryRadio.checked) {
+                deliveryDetailsGroup.style.display = 'block';
+                postalCodeInput.setAttribute('required', 'required');
+                customerLocationGroup.style.display = 'none';
+                customerLocationInput.removeAttribute('required');
+            } else {
+                deliveryDetailsGroup.style.display = 'none';
+                postalCodeInput.removeAttribute('required');
+                postalCodeInput.value = '';
+                customerLocationGroup.style.display = 'none';
+                customerLocationInput.removeAttribute('required');
+                customerLocationInput.value = '';
+            }
+        };
+
+        postalCodeInput.addEventListener('input', () => {
+            if (postalCodeInput.value.trim() !== '') {
+                customerLocationGroup.style.display = 'block';
+                customerLocationInput.setAttribute('required', 'required');
+            } else {
+                customerLocationGroup.style.display = 'none';
+                customerLocationInput.removeAttribute('required');
+                customerLocationInput.value = '';
+            }
+        });
+
+        pickupRadio.addEventListener('change', toggleDeliveryDetails);
+        deliveryRadio.addEventListener('change', toggleDeliveryDetails);
+
+        customerForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const customerName = document.getElementById('customer-name').value;
+            const customerEmail = document.getElementById('customer-email').value;
+            const customerPhone = document.getElementById('customer-phone').value;
+            const deliveryOption = document.querySelector('input[name="delivery-pickup"]:checked').value;
+
+            let postalCode = '';
+            let customerLocation = '';
+
+            if (!customerName || !customerEmail || !customerPhone) {
+                alert('Please fill in all required customer details (Name, Email, Phone).');
+                return;
+            }
+
+            if (deliveryOption === 'delivery') {
+                postalCode = postalCodeInput.value.trim();
+                customerLocation = customerLocationInput.value.trim();
+
+                if (!postalCode) {
+                    alert('Please enter a postal code for delivery.');
+                    return;
+                }
+                if (!customerLocation) {
+                    alert('Please enter a delivery address.');
+                    return;
+                }
+            }
+
+            let orderSummary = "--- Customer Details ---\n";
+            orderSummary += `Name: ${customerName}\nEmail: ${customerEmail}\nPhone: ${customerPhone}`;
+            orderSummary += `\nOrder Type: ${deliveryOption === 'delivery' ? 'Delivery' : 'Pickup'}`;
+
+            if (deliveryOption === 'delivery') {
+                orderSummary += `\nPostal Code: ${postalCode}`;
+                orderSummary += `\nDelivery Address: ${customerLocation}`;
+            }
+
+            orderSummary += "\n\nThank you for your order! This is a demo. In a real application, you'd proceed to a secure payment gateway.";
+
+            alert(orderSummary);
+
+            customerForm.reset();
+            pickupRadio.checked = true;
+            toggleDeliveryDetails();
+        });
+
+        toggleDeliveryDetails();
+    });
+</script>
+ <footer id="contact" class="footer-section">
+        <div class="container">
+            <h3>Visit Us</h3>
+            <div class="map-container">
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1664261.685390649!2d139.15457772499994!3d35.442139110366185!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x605d1b87f02e57e7%3A0x2e01618b22571b89!2sTokyo!5e0!3m2!1sen!2sjp!4v1751027183327!5m2!1sen!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>            </div>
+    <footer id="contact" class="footer-section">
+        <div class="container">
+            <h3>Visit Us</h3>
+            <p>123 Serenity Lane, Tokyo, Japan</p>
+            <p>Email: contact@komorebicafe.jp | Phone: (123) 456-7890</p>
+            <div class="social-links">
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+                <a href="#">Twitter</a>
+            </div>
+            <p class="copyright">&copy; 2025 Komorebi Cafe. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+
+</body>
+
+</html>
