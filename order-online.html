@@ -342,26 +342,7 @@
                         let postalCode = '';
                         let customerLocation = '';
 
-                        // Basic validation for required customer details (Name, Email, Phone)
-                        if (!customerName || !customerEmail || !customerPhone) {
-                            alert('Please fill in all required customer details (Name, Email, Phone).');
-                            return;
-                        }
-
-                        if (deliveryOption === 'delivery') {
-                            postalCode = postalCodeInput.value.trim();
-                            customerLocation = customerLocationInput.value.trim();
-
-                            // Validation for delivery fields
-                            if (!postalCode) {
-                                alert('Please enter a postal code for delivery.');
-                                return;
-                            }
-                            if (!customerLocation) {
-                                alert('Please enter a delivery address.');
-                                return;
-                            }
-                        }
+                       
 
                         // Construct order summary with customer details and delivery option
                         let orderSummary = "--- Your Order Summary ---\n\n";
@@ -369,17 +350,7 @@
                             orderSummary += `${item.name} x ${item.quantity} = ¥${(item.price * item.quantity).toLocaleString()}\n`;
                         });
                         orderSummary += `\nTotal: ¥${totalPriceSpan.textContent}`;
-                        orderSummary += `\n\n--- Customer Details ---\nName: ${customerName}\nEmail: ${customerEmail}\nPhone: ${customerPhone}`;
-                        orderSummary += `\nOrder Type: ${deliveryOption === 'delivery' ? 'Delivery' : 'Pickup'}`;
-
-                        if (deliveryOption === 'delivery') {
-                            orderSummary += `\nPostal Code: ${postalCode}`;
-                            orderSummary += `\nDelivery Address: ${customerLocation}`;
-                        }
-
-                        orderSummary += "\n\nThank you for your order! This is a demo. In a real application, you'd proceed to a secure payment gateway.";
-
-                        alert(orderSummary); // Using alert for demo purposes
+                       
 
                         // Reset the form and display for a new order
                         cart = []; // Clear the cart
@@ -399,7 +370,7 @@
 
                     // Initial load of the cart and set the initial state of the delivery/pickup options
                     loadCart();
-                    toggleDeliveryDetails(); // Set initial visibility for delivery details when page loads
+                    // toggleDeliveryDetails(); // Set initial visibility for delivery details when page loads
                 });
             </script>
 

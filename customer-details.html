@@ -24,6 +24,7 @@
             </nav>
         </div>
     </header>
+    <min>
 <section id="customer-details-section" class="container">
     <h2>Your Contact Information</h2>
     <form id="customer-form">
@@ -109,6 +110,7 @@
 
         customerForm.addEventListener('submit', (event) => {
             event.preventDefault();
+            // Event listener for the customer form submission
 
             const customerName = document.getElementById('customer-name').value;
             const customerEmail = document.getElementById('customer-email').value;
@@ -117,7 +119,7 @@
 
             let postalCode = '';
             let customerLocation = '';
-
+// Basic validation for required customer details (Name, Email, Phone)
             if (!customerName || !customerEmail || !customerPhone) {
                 alert('Please fill in all required customer details (Name, Email, Phone).');
                 return;
@@ -158,6 +160,7 @@
         toggleDeliveryDetails();
     });
 </script>
+</min>
  <footer id="contact" class="footer-section">
         <div class="container">
             <h3>Visit Us</h3>
