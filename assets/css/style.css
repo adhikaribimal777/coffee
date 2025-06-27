@@ -746,7 +746,13 @@ body {
         margin-bottom: 10px; /* Space below image on small screens */
         margin-right: 0;
     }
-
+.temperature-options {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
     .item-details {
         width: 100%;
         padding-right: 0;

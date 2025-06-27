@@ -1,29 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- DOM Element References ---
     const cartItemsContainer = document.getElementById('cart-items');
     const totalPriceSpan = document.getElementById('total-price');
     const emptyCartMessage = document.getElementById('empty-cart-message');
     const addToCartButtons = document.querySelectorAll('.add-to-cart-button');
 
-    // New DOM elements for customer details and delivery/pickup
-    const checkoutButton = document.getElementById('checkout-button'); // Already exists
-    const orderSection = document.querySelector('.order-section'); // Assumed you have this section
-    const shoppingCartSection = document.getElementById('shopping-cart-section'); // Assumed you have this section
-    const customerDetailsSection = document.getElementById('customer-details-section'); // Assumed you have this section
-    const customerForm = document.getElementById('customer-form'); // Already exists
+    const checkoutButton = document.getElementById('checkout-button');
+    const orderSection = document.querySelector('.order-section');
+    const shoppingCartSection = document.getElementById('shopping-cart-section');
+    const customerDetailsSection = document.getElementById('customer-details-section');
+    const customerForm = document.getElementById('customer-form');
 
-    const deliveryRadio = document.getElementById('delivery-option'); // New
-    const pickupRadio = document.getElementById('pickup-option');     // New
-    const customerLocationGroup = document.getElementById('customer-location-group'); // New
-    const customerLocationInput = document.getElementById('customer-location'); // New
+    const deliveryRadio = document.getElementById('delivery-option');
+    const pickupRadio = document.getElementById('pickup-option');
+    const customerLocationGroup = document.getElementById('customer-location-group');
+    const customerLocationInput = document.getElementById('customer-location');
 
+    // --- Cart Data ---
     let cart = [];
 
-    // Function to save cart to localStorage
+    // --- Local Storage Functions ---
     const saveCart = () => {
         localStorage.setItem('komorebiCart', JSON.stringify(cart));
     };
 
-    // Function to load cart from localStorage
     const loadCart = () => {
         const storedCart = localStorage.getItem('komorebiCart');
         if (storedCart) {
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Function to update the cart display and total
+    // --- Cart Display and Total Functions ---
     const updateCartDisplay = () => {
         cartItemsContainer.innerHTML = ''; // Clear existing cart items
 
@@ -44,10 +44,12 @@ document.addEventListener('DOMContentLoaded', () => {
             checkoutButton.style.display = 'inline-block'; // Show checkout button
             cart.forEach((item, index) => {
                 const listItem = document.createElement('li');
-                // Using toLocaleString for better currency formatting
+                // Determine temperature text for display, defaulting to empty if not present
+                const temperatureText = item.temperature ? ` (${item.temperature})` : '';
+
                 listItem.innerHTML = `
                     <div class="cart-item-info">
-                        ${item.name} (¥${item.price.toLocaleString()}) x ${item.quantity}
+                        ${item.name}${temperatureText} (¥${item.price.toLocaleString()}) x ${item.quantity}
                     </div>
                     <span>¥${(item.price * item.quantity).toLocaleString()}</span>
                     <button class="remove-item-button" data-index="${index}">Remove</button>
@@ -59,13 +61,14 @@ document.addEventListener('DOMContentLoaded', () => {
         saveCart(); // Save cart after every update
     };
 
-    // Function to update the total price
     const updateCartTotal = () => {
         const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         totalPriceSpan.textContent = total.toLocaleString(); // Format total price
     };
 
-    // Event listener for "Add to Cart" buttons
+    // --- Event Listeners ---
+
+    // "Add to Cart" button functionality
     addToCartButtons.forEach(button => {
         button.addEventListener('click', (event) => {
             const menuItem = event.target.closest('.menu-item');
@@ -74,15 +77,33 @@ document.addEventListener('DOMContentLoaded', () => {
             const itemQuantityInput = menuItem.querySelector('.item-quantity');
             const quantity = parseInt(itemQuantityInput.value);
 
+            let selectedTemperature = ''; // Initialize for potential temperature option
+            // Check if the menu item has temperature options (like Latte / Cappuccino)
+            const temperatureOptionsDiv = menuItem.querySelector('.temperature-options');
+            if (temperatureOptionsDiv) {
+                const checkedRadio = temperatureOptionsDiv.querySelector('input[type="radio"]:checked');
+                if (checkedRadio) {
+                    selectedTemperature = checkedRadio.value; // Capture "Hot" or "Iced"
+                }
+            }
+
             if (quantity > 0) {
-                const existingItemIndex = cart.findIndex(item => item.name === itemName);
+                // Find existing item with the SAME name AND SAME temperature
+                const existingItemIndex = cart.findIndex(item =>
+                    item.name === itemName && item.temperature === selectedTemperature
+                );
 
                 if (existingItemIndex > -1) {
-                    // Item already in cart, update quantity
+                    // Item with same name and temperature already in cart, update quantity
                     cart[existingItemIndex].quantity += quantity;
                 } else {
-                    // Add new item to cart
-                    cart.push({ name: itemName, price: itemPrice, quantity: quantity });
+                    // Add new item to cart, including its temperature
+                    cart.push({
+                        name: itemName,
+                        price: itemPrice,
+                        quantity: quantity,
+                        temperature: selectedTemperature // Store the selected temperature
+                    });
                 }
                 updateCartDisplay();
                 itemQuantityInput.value = 1; // Reset quantity input to 1 after adding
@@ -92,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Event listener for "Remove" buttons in the cart
+    // "Remove" button functionality in the cart
     cartItemsContainer.addEventListener('click', (event) => {
         if (event.target.classList.contains('remove-item-button')) {
             const indexToRemove = event.target.dataset.index;
@@ -101,32 +122,37 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- New: Delivery/Pickup and Customer Details Logic ---
+    // --- Delivery/Pickup and Customer Details Logic ---
 
     // Function to toggle visibility and required attribute of the customer location field
     const toggleLocationField = () => {
-        if (deliveryRadio.checked) {
-            customerLocationGroup.style.display = 'block'; // Show the location field
-            customerLocationInput.setAttribute('required', 'required'); // Make location required for delivery
-        } else {
-            customerLocationGroup.style.display = 'none'; // Hide the location field
-            customerLocationInput.removeAttribute('required'); // Remove required for pickup
-            customerLocationInput.value = ''; // Clear location input when switching to pickup
+        if (deliveryRadio && customerLocationGroup && customerLocationInput) { // Check if elements exist
+            if (deliveryRadio.checked) {
+                customerLocationGroup.style.display = 'block'; // Show the location field
+                customerLocationInput.setAttribute('required', 'required'); // Make location required for delivery
+            } else {
+                customerLocationGroup.style.display = 'none'; // Hide the location field
+                customerLocationInput.removeAttribute('required'); // Remove required for pickup
+                customerLocationInput.value = ''; // Clear location input when switching to pickup
+            }
         }
     };
 
     // Event listeners for delivery/pickup radio buttons
-    deliveryRadio.addEventListener('change', toggleLocationField);
-    pickupRadio.addEventListener('change', toggleLocationField);
+    if (deliveryRadio && pickupRadio) { // Ensure elements exist before adding listeners
+        deliveryRadio.addEventListener('change', toggleLocationField);
+        pickupRadio.addEventListener('change', toggleLocationField);
+    }
 
     // Modify Checkout button functionality to show customer details form
     checkoutButton.addEventListener('click', (event) => {
         event.preventDefault(); // Prevent default link behavior
         if (cart.length > 0) {
             // Hide menu and shopping cart, show customer details
-            orderSection.style.display = 'none';
-            shoppingCartSection.style.display = 'none';
-            customerDetailsSection.style.display = 'block';
+            if (orderSection) orderSection.style.display = 'none';
+            if (shoppingCartSection) shoppingCartSection.style.display = 'none';
+            if (customerDetailsSection) customerDetailsSection.style.display = 'block';
+
             // Ensure location field visibility is correctly set when entering customer details
             toggleLocationField();
         } else {
@@ -135,65 +161,100 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Event listener for the customer form submission
-    customerForm.addEventListener('submit', (event) => {
-        event.preventDefault(); // Prevent default form submission
+    if (customerForm) { // Ensure customerForm exists
+        customerForm.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent default form submission
 
-        const customerName = document.getElementById('customer-name').value;
-        const customerEmail = document.getElementById('customer-email').value;
-        const customerPhone = document.getElementById('customer-phone').value;
-        const deliveryOption = document.querySelector('input[name="delivery-pickup"]:checked').value;
+            const customerName = document.getElementById('customer-name')?.value || '';
+            const customerEmail = document.getElementById('customer-email')?.value || '';
+            const customerPhone = document.getElementById('customer-phone')?.value || '';
+            const deliveryOption = document.querySelector('input[name="delivery-pickup"]:checked')?.value || 'pickup'; // Default to pickup
 
-        let customerLocation = '';
-        // Only get customer location if delivery is selected
-        if (deliveryOption === 'delivery') {
-            customerLocation = customerLocationInput.value;
-            // Add validation for delivery location if delivery is chosen
-            if (!customerLocation) {
-                alert('Please enter a delivery location.');
+            let customerLocation = '';
+            // Only get customer location if delivery is selected
+            if (deliveryOption === 'delivery') {
+                customerLocation = customerLocationInput?.value || '';
+                // Add validation for delivery location if delivery is chosen
+                if (!customerLocation) {
+                    alert('Please enter a delivery location.');
+                    return;
+                }
+            }
+
+            // Basic validation for required customer details
+            if (!customerName || !customerEmail || !customerPhone) {
+                alert('Please fill in all required customer details (Name, Email, Phone).');
                 return;
             }
-        }
 
-        // Basic validation for required customer details
-        if (!customerName || !customerEmail || !customerPhone) {
-            alert('Please fill in all required customer details (Name, Email, Phone).');
-            return;
-        }
+            // Construct order summary with customer details and delivery option
+            let orderSummary = "--- Your Order Summary ---\n\n";
+            cart.forEach(item => {
+                const temperatureText = item.temperature ? ` (${item.temperature})` : '';
+                orderSummary += `${item.name}${temperatureText} x ${item.quantity} = ¥${(item.price * item.quantity).toLocaleString()}\n`;
+            });
+            orderSummary += `\nTotal: ¥${totalPriceSpan.textContent}`;
+            orderSummary += `\n\n--- Customer Details ---\nName: ${customerName}\nEmail: ${customerEmail}\nPhone: ${customerPhone}`;
+            orderSummary += `\nOrder Type: ${deliveryOption === 'delivery' ? 'Delivery' : 'Pickup'}`;
 
-        // Construct order summary with customer details and delivery option
-        let orderSummary = "--- Your Order Summary ---\n\n";
-        cart.forEach(item => {
-            orderSummary += `${item.name} x ${item.quantity} = ¥${(item.price * item.quantity).toLocaleString()}\n`;
+            if (deliveryOption === 'delivery') {
+                orderSummary += `\nDelivery Location: ${customerLocation}`;
+            }
+
+            orderSummary += "\n\nThank you for your order! This is a demo. In a real application, you'd proceed to a secure payment gateway.";
+
+            alert(orderSummary); // Using alert for demo purposes
+
+            // Reset the form and display for a new order
+            cart = []; // Clear the cart
+            saveCart(); // Save the empty cart to localStorage
+            updateCartDisplay(); // Update display (will show empty cart message)
+            customerForm.reset(); // Clear the form fields
+
+            // Reset delivery/pickup options visibility for the next order
+            if (pickupRadio) pickupRadio.checked = true; // Set pickup as default again (or deliveryRadio.checked = true if preferred)
+            toggleLocationField(); // Ensure location field is hidden for pickup
+
+            // Navigate back to the menu/cart view
+            if (customerDetailsSection) customerDetailsSection.style.display = 'none'; // Hide customer details
+            if (orderSection) orderSection.style.display = 'block'; // Show menu section again
+            if (shoppingCartSection) shoppingCartSection.style.display = 'block'; // Show shopping cart section again
         });
-        orderSummary += `\nTotal: ¥${totalPriceSpan.textContent}`;
-        orderSummary += `\n\n--- Customer Details ---\nName: ${customerName}\nEmail: ${customerEmail}\nPhone: ${customerPhone}`;
-        orderSummary += `\nOrder Type: ${deliveryOption === 'delivery' ? 'Delivery' : 'Pickup'}`;
+    }
 
-        if (deliveryOption === 'delivery') {
-            orderSummary += `\nDelivery Location: ${customerLocation}`;
-        }
-å
-        orderSummary += "\n\nThank you for your order! This is a demo. In a real application, you'd proceed to a secure payment gateway.";
-
-        alert(orderSummary); // Using alert for demo purposes
-
-        // Reset the form and display for a new order
-        cart = []; // Clear the cart
-        saveCart(); // Save the empty cart to localStorage
-        updateCartDisplay(); // Update display (will show empty cart message)
-        customerForm.reset(); // Clear the form fields
-
-        // Reset delivery/pickup options visibility for the next order
-        deliveryRadio.checked = true; // Set delivery as default again
-        toggleLocationField(); // Ensure location field is visible (if delivery is default)
-
-        // Navigate back to the menu/cart view
-        customerDetailsSection.style.display = 'none'; // Hide customer details
-        orderSection.style.display = 'block'; // Show menu section again
-        shoppingCartSection.style.display = 'block'; // Show shopping cart section again
-    });
-
-    // Initial load of the cart and set the initial state of the delivery/pickup options
-    loadCart();
-    toggleLocationField(); // Set initial visibility for location field
+    // --- Initializations ---
+    loadCart(); // Load cart when the page loads
+    toggleLocationField(); // Set initial visibility for location field based on default radio selection
 });
+// ...existing code...
+addToCartButtons.forEach(button => {
+    button.addEventListener('click', (event) => {
+        const menuItem = event.target.closest('.menu-item');
+        let itemName = menuItem.dataset.name;
+        const itemPrice = parseInt(menuItem.dataset.price);
+        const itemQuantityInput = menuItem.querySelector('.item-quantity');
+        const quantity = parseInt(itemQuantityInput.value);
+
+        // Check for temperature option
+        const tempOption = menuItem.querySelector('.temperature-options input[type="radio"]:checked');
+        if (tempOption) {
+            const tempLabel = tempOption.value === 'hot' ? 'Hot' : 'Iced';
+            itemName = `${itemName} (${tempLabel})`;
+        }
+
+        if (quantity > 0) {
+            const existingItemIndex = cart.findIndex(item => item.name === itemName);
+
+            if (existingItemIndex > -1) {
+                cart[existingItemIndex].quantity += quantity;
+            } else {
+                cart.push({ name: itemName, price: itemPrice, quantity: quantity });
+            }
+            updateCartDisplay();
+            itemQuantityInput.value = 1;
+        } else {
+            alert('Please enter a quantity greater than 0.');
+        }
+    });
+});
+// ...existing code...
