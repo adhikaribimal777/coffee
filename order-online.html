@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,11 +7,8 @@
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Noto+Serif+JP:wght@400;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
     <header class="main-header">
@@ -31,8 +27,7 @@
     <main>
         <section class="order-section container">
             <h1>Online Ordering</h1>
-            <p>Welcome to our online ordering portal! Browse our menu and place your order for convenient pickup at
-                Komorebi Cafe.</p>
+            <p>Welcome to our online ordering portal! Browse our menu and place your order for convenient pickup at Komorebi Cafe.</p>
 
             <div class="menu-category">
                 <h2>Hand-Dripped Coffee</h2>
@@ -130,8 +125,7 @@
         <section id="shopping-cart-section" class="container">
             <h2>Your Order</h2>
             <ul id="cart-items">
-                <li id="empty-cart-message" style="text-align: center; color: #888;">Your cart is empty. Please add some
-                    delicious items!</li>
+                <li id="empty-cart-message" style="text-align: center; color: #888;">Your cart is empty. Please add some delicious items!</li>
             </ul>
             <div id="cart-total">
                 Total: ¥<span id="total-price">0</span>
@@ -156,166 +150,287 @@
                     <label for="customer-phone">Phone Number:</label>
                     <input type="tel" id="customer-phone" name="customerPhone" required>
                 </div>
+
+                <div class="form-group">
+                    <p>Order Type:</p>
+                    <input type="radio" id="pickup-option" name="delivery-pickup" value="pickup" checked>
+                    <label for="pickup-option">Pickup</label>
+                    <br>
+                    <input type="radio" id="delivery-option" name="delivery-pickup" value="delivery">
+                    <label for="delivery-option">Delivery</label>
+                </div>
+
+                <div id="delivery-details-group" style="display: none;">
+                    <div class="form-group">
+                        <label for="postal-code">Postal Code:</label>
+                        <input type="text" id="postal-code" name="postalCode">
+                    </div>
+                    <div class="form-group" id="customer-location-group" style="display: none;">
+                        <label for="customer-location">Delivery Location (Address):</label>
+                        <input type="text" id="customer-location" name="customerLocation">
+                    </div>
+                </div>
+
                 <button type="submit" class="submit-details-button">Place Order</button>
             </form>
             <p class="external-link-note" style="text-align: center; margin-top: 20px;">
                 (This is a demonstration. A real checkout process would involve a secure payment gateway.)
             </p>
         </section>
-    </main>
+        </main>
 
     <footer id="contact" class="footer-section">
         <div class="container">
             <h3>Visit Us</h3>
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d105217.30750093963!2d134.9066648499999!3d34.501848400000014!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3554c96d546f04c1%3A0xbec499fe87d8c44!2sAwaji%2C%20Hyogo!5e0!3m2!1sen!2sjp!4v1751026668336!5m2!1sen!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            <footer id="contact" class="footer-section">
-                <div class="container">
-                    <h3>Visit Us</h3>
-                    <p>123 Serenity Lane, Tokyo, Japan</p>
-                    <p>Email: contact@komorebicafe.jp | Phone: (123) 456-7890</p>
-                    <div class="social-links">
-                        <a href="#">Instagram</a>
-                        <a href="#">Facebook</a>
-                        <a href="#">Twitter</a>
-                    </div>
-                    <p class="copyright">&copy; 2025 Komorebi Cafe. All Rights Reserved.</p>
-                </div>
-            </footer>
+               <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1664261.685390649!2d139.15457772499994!3d35.442139110366185!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x605d1b87f02e57e7%3A0x2e01618b22571b89!2sTokyo!5e0!3m2!1sen!2sjp!4v1751027183327!5m2!1sen!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>            </div>
 
-            <script>
-                // Shopping Cart Logic
-                let cart = []; // Array to store items in the cart
+    <footer id="contact" class="footer-section">
+        <div class="container">
+            <h3>Visit Us</h3>
+            <p>123 Serenity Lane, Tokyo, Japan</p>
+            <p>Email: contact@komorebicafe.jp | Phone: (123) 456-7890</p>
+            <div class="social-links">
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+                <a href="#">Twitter</a>
+            </div>
+            <p class="copyright">© 2025 Komorebi Cafe. All Rights Reserved.</p>
+        </div>
+    </footer>
 
-                // Get DOM elements
-                const cartItemsList = document.getElementById('cart-items');
-                const totalPriceSpan = document.getElementById('total-price');
-                const emptyCartMessage = document.getElementById('empty-cart-message');
-                const checkoutButton = document.getElementById('checkout-button');
-                const orderSection = document.querySelector('.order-section'); // Get the menu section
-                const shoppingCartSection = document.getElementById('shopping-cart-section'); // Get the shopping cart section
-                const customerDetailsSection = document.getElementById('customer-details-section'); // New: Customer details section
-                const customerForm = document.getElementById('customer-form'); // New: Customer form
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const totalPriceSpan = document.getElementById('total-price');
+            const emptyCartMessage = document.getElementById('empty-cart-message');
+            const addToCartButtons = document.querySelectorAll('.add-to-cart-button');
 
-                // Function to render cart items
-                function renderCart() {
-                    cartItemsList.innerHTML = ''; // Clear current cart display
-                    let total = 0;
+            const checkoutButton = document.getElementById('checkout-button');
+            const orderSection = document.querySelector('.order-section');
+            const shoppingCartSection = document.getElementById('shopping-cart-section');
+            const customerDetailsSection = document.getElementById('customer-details-section');
+            const customerForm = document.getElementById('customer-form');
 
-                    if (cart.length === 0) {
-                        cartItemsList.appendChild(emptyCartMessage);
-                        emptyCartMessage.style.display = 'block'; // Show empty message
-                        checkoutButton.style.display = 'none'; // Hide checkout button if cart is empty
-                    } else {
-                        emptyCartMessage.style.display = 'none'; // Hide empty message
-                        checkoutButton.style.display = 'inline-block'; // Show checkout button
-                        cart.forEach((item, index) => {
-                            const listItem = document.createElement('li');
-                            listItem.innerHTML = `
-                        <div class="cart-item-info">
-                            ${item.name} x ${item.quantity}
-                        </div>
-                        <span>¥${(item.price * item.quantity).toLocaleString()}</span>
-                        <button class="remove-item-button" data-index="${index}">Remove</button>
-                    `;
-                            cartItemsList.appendChild(listItem);
-                            total += item.price * item.quantity;
-                        });
-                    }
-                    totalPriceSpan.textContent = total.toLocaleString(); // Update total price with locale formatting
+            const deliveryRadio = document.getElementById('delivery-option');
+            const pickupRadio = document.getElementById('pickup-option');
+
+            // New DOM elements for postal code and delivery details group
+            const deliveryDetailsGroup = document.getElementById('delivery-details-group');
+            const postalCodeInput = document.getElementById('postal-code');
+            const customerLocationGroup = document.getElementById('customer-location-group');
+            const customerLocationInput = document.getElementById('customer-location');
+
+            let cart = [];
+
+            // Function to save cart to localStorage
+            const saveCart = () => {
+                localStorage.setItem('komorebiCart', JSON.stringify(cart));
+            };
+
+            // Function to load cart from localStorage
+            const loadCart = () => {
+                const storedCart = localStorage.getItem('komorebiCart');
+                if (storedCart) {
+                    cart = JSON.parse(storedCart);
+                    updateCartDisplay();
                 }
+            };
 
-                // Add event listener to all "Add to Cart" buttons
-                document.querySelectorAll('.add-to-cart-button').forEach(button => {
-                    button.addEventListener('click', (event) => {
-                        const menuItem = event.target.closest('.menu-item');
-                        const itemName = menuItem.dataset.name;
-                        const itemPrice = parseInt(menuItem.dataset.price);
-                        const quantityInput = menuItem.querySelector('.item-quantity');
-                        const itemQuantity = parseInt(quantityInput.value);
+            // Function to update the cart display and total
+            const updateCartDisplay = () => {
+                cartItemsContainer.innerHTML = ''; // Clear existing cart items
 
-                        if (itemQuantity <= 0) {
-                            alert('Please enter a quantity greater than 0.');
-                            return;
-                        }
+                if (cart.length === 0) {
+                    emptyCartMessage.style.display = 'block'; // Show message
+                    checkoutButton.style.display = 'none'; // Hide checkout button if cart is empty
+                } else {
+                    emptyCartMessage.style.display = 'none'; // Hide message
+                    checkoutButton.style.display = 'inline-block'; // Show checkout button
+                    cart.forEach((item, index) => {
+                        const listItem = document.createElement('li');
+                        // Using toLocaleString for better currency formatting
+                        listItem.innerHTML = `
+                            <div class="cart-item-info">
+                                ${item.name} (¥${item.price.toLocaleString()}) x ${item.quantity}
+                            </div>
+                            <span>¥${(item.price * item.quantity).toLocaleString()}</span>
+                            <button class="remove-item-button" data-index="${index}">Remove</button>
+                        `;
+                        cartItemsContainer.appendChild(listItem);
+                    });
+                }
+                updateCartTotal();
+                saveCart(); // Save cart after every update
+            };
 
+            // Function to update the total price
+            const updateCartTotal = () => {
+                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                totalPriceSpan.textContent = total.toLocaleString(); // Format total price
+            };
+
+            // Event listener for "Add to Cart" buttons
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const menuItem = event.target.closest('.menu-item');
+                    const itemName = menuItem.dataset.name;
+                    const itemPrice = parseInt(menuItem.dataset.price);
+                    const itemQuantityInput = menuItem.querySelector('.item-quantity');
+                    const quantity = parseInt(itemQuantityInput.value);
+
+                    if (quantity > 0) {
                         const existingItemIndex = cart.findIndex(item => item.name === itemName);
 
                         if (existingItemIndex > -1) {
-                            cart[existingItemIndex].quantity += itemQuantity;
+                            // Item already in cart, update quantity
+                            cart[existingItemIndex].quantity += quantity;
                         } else {
-                            cart.push({
-                                name: itemName,
-                                price: itemPrice,
-                                quantity: itemQuantity
-                            });
+                            // Add new item to cart
+                            cart.push({ name: itemName, price: itemPrice, quantity: quantity });
                         }
-                        renderCart(); // Re-render cart after adding item
-                        quantityInput.value = 1; // Reset quantity input to 1 after adding
-                    });
-                });
-
-                // Add event listener for removing items from cart (event delegation)
-                cartItemsList.addEventListener('click', (event) => {
-                    if (event.target.classList.contains('remove-item-button')) {
-                        const indexToRemove = parseInt(event.target.dataset.index);
-                        cart.splice(indexToRemove, 1); // Remove item from array
-                        renderCart(); // Re-render cart
+                        updateCartDisplay();
+                        itemQuantityInput.value = 1; // Reset quantity input to 1 after adding
+                    } else {
+                        alert('Please enter a quantity greater than 0.');
                     }
                 });
+            });
 
-                // Initial render of the cart when the page loads
-                document.addEventListener('DOMContentLoaded', renderCart);
+            // Event listener for "Remove" buttons in the cart
+            cartItemsContainer.addEventListener('click', (event) => {
+                if (event.target.classList.contains('remove-item-button')) {
+                    const indexToRemove = event.target.dataset.index;
+                    cart.splice(indexToRemove, 1); // Remove item from cart array
+                    updateCartDisplay();
+                }
+            });
 
-                // Modify Checkout button functionality to show customer details form
-                checkoutButton.addEventListener('click', (event) => {
-                    event.preventDefault(); // Prevent default link behavior
-                    if (cart.length === 0) {
-                        alert('Your cart is empty. Please add items before checking out.');
-                        return;
-                    }
+            // --- Delivery/Pickup and Customer Details Logic ---
 
+            // Function to toggle visibility of delivery details (postal code + full address)
+            const toggleDeliveryDetails = () => {
+                if (deliveryRadio.checked) {
+                    deliveryDetailsGroup.style.display = 'block'; // Show postal code and location group
+                    postalCodeInput.setAttribute('required', 'required'); // Make postal code required
+                    // customerLocationGroup will be handled by postalCodeInput's 'input' event
+                    customerLocationGroup.style.display = 'none'; // Initially hide full address until postal code is entered
+                    customerLocationInput.removeAttribute('required'); // Remove required for full address initially
+                } else {
+                    deliveryDetailsGroup.style.display = 'none'; // Hide all delivery fields
+                    postalCodeInput.removeAttribute('required'); // Remove required from postal code
+                    postalCodeInput.value = ''; // Clear postal code
+                    customerLocationGroup.style.display = 'none'; // Hide full address
+                    customerLocationInput.removeAttribute('required'); // Remove required from full address
+                    customerLocationInput.value = ''; // Clear full address
+                }
+            };
+
+            // Event listener for postal code input
+            postalCodeInput.addEventListener('input', () => {
+                if (postalCodeInput.value.trim() !== '') {
+                    customerLocationGroup.style.display = 'block'; // Show full address field
+                    customerLocationInput.setAttribute('required', 'required'); // Make full address required
+                } else {
+                    customerLocationGroup.style.display = 'none'; // Hide full address field
+                    customerLocationInput.removeAttribute('required'); // Remove required
+                    customerLocationInput.value = ''; // Clear full address
+                }
+            });
+
+
+            // Event listeners for delivery/pickup radio buttons
+            pickupRadio.addEventListener('change', toggleDeliveryDetails); // Pickup is now default
+            deliveryRadio.addEventListener('change', toggleDeliveryDetails);
+
+
+            // Modify Checkout button functionality to show customer details form
+            checkoutButton.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default link behavior
+                if (cart.length > 0) {
                     // Hide menu and shopping cart, show customer details
                     orderSection.style.display = 'none';
                     shoppingCartSection.style.display = 'none';
                     customerDetailsSection.style.display = 'block';
-                });
+                    // Ensure delivery details visibility is correctly set when entering customer details
+                    toggleDeliveryDetails();
+                } else {
+                    alert('Your cart is empty. Please add items before checking out.');
+                }
+            });
 
-                // New: Event listener for the customer form submission
-                customerForm.addEventListener('submit', (event) => {
-                    event.preventDefault(); // Prevent default form submission
+            // Event listener for the customer form submission
+            customerForm.addEventListener('submit', (event) => {
+                event.preventDefault(); // Prevent default form submission
 
-                    const customerName = document.getElementById('customer-name').value;
-                    const customerEmail = document.getElementById('customer-email').value;
-                    const customerPhone = document.getElementById('customer-phone').value;
+                const customerName = document.getElementById('customer-name').value;
+                const customerEmail = document.getElementById('customer-email').value;
+                const customerPhone = document.getElementById('customer-phone').value;
+                const deliveryOption = document.querySelector('input[name="delivery-pickup"]:checked').value;
 
-                    // Basic validation
-                    if (!customerName || !customerEmail || !customerPhone) {
-                        alert('Please fill in all customer details.');
+                let postalCode = '';
+                let customerLocation = '';
+
+                // Basic validation for required customer details (Name, Email, Phone)
+                if (!customerName || !customerEmail || !customerPhone) {
+                    alert('Please fill in all required customer details (Name, Email, Phone).');
+                    return;
+                }
+
+                if (deliveryOption === 'delivery') {
+                    postalCode = postalCodeInput.value.trim();
+                    customerLocation = customerLocationInput.value.trim();
+
+                    // Validation for delivery fields
+                    if (!postalCode) {
+                        alert('Please enter a postal code for delivery.');
                         return;
                     }
+                    if (!customerLocation) {
+                        alert('Please enter a delivery address.');
+                        return;
+                    }
+                }
 
-                    // Construct order summary with customer details
-                    let orderSummary = "Your Order Summary:\n\n";
-                    cart.forEach(item => {
-                        orderSummary += `${item.name} x ${item.quantity} = ¥${(item.price * item.quantity).toLocaleString()}\n`;
-                    });
-                    orderSummary += `\nTotal: ¥${totalPriceSpan.textContent}`;
-                    orderSummary += `\n\nCustomer Details:\nName: ${customerName}\nEmail: ${customerEmail}\nPhone: ${customerPhone}`;
-                    orderSummary += "\n\nThank you for your order! This is a demo. In a real app, you'd proceed to payment.";
-
-                    alert(orderSummary); // Using alert for demo purposes
-
-                    // Clear the cart and reset the display
-                    cart = [];
-                    renderCart(); // This will also hide the checkout button
-                    customerForm.reset(); // Clear the form fields
-                    customerDetailsSection.style.display = 'none'; // Hide customer details
-                    orderSection.style.display = 'block'; // Show menu section again
-                    shoppingCartSection.style.display = 'block'; // Show shopping cart section again
+                // Construct order summary with customer details and delivery option
+                let orderSummary = "--- Your Order Summary ---\n\n";
+                cart.forEach(item => {
+                    orderSummary += `${item.name} x ${item.quantity} = ¥${(item.price * item.quantity).toLocaleString()}\n`;
                 });
-            </script>
+                orderSummary += `\nTotal: ¥${totalPriceSpan.textContent}`;
+                orderSummary += `\n\n--- Customer Details ---\nName: ${customerName}\nEmail: ${customerEmail}\nPhone: ${customerPhone}`;
+                orderSummary += `\nOrder Type: ${deliveryOption === 'delivery' ? 'Delivery' : 'Pickup'}`;
+
+                if (deliveryOption === 'delivery') {
+                    orderSummary += `\nPostal Code: ${postalCode}`;
+                    orderSummary += `\nDelivery Address: ${customerLocation}`;
+                }
+
+                orderSummary += "\n\nThank you for your order! This is a demo. In a real application, you'd proceed to a secure payment gateway.";
+
+                alert(orderSummary); // Using alert for demo purposes
+
+                // Reset the form and display for a new order
+                cart = []; // Clear the cart
+                saveCart(); // Save the empty cart to localStorage
+                updateCartDisplay(); // Update display (will show empty cart message)
+                customerForm.reset(); // Clear the form fields
+
+                // Reset delivery/pickup options visibility for the next order
+                pickupRadio.checked = true; // Set pickup as default again
+                toggleDeliveryDetails(); // Ensure delivery fields are hidden
+
+                // Navigate back to the menu/cart view
+                customerDetailsSection.style.display = 'none'; // Hide customer details
+                orderSection.style.display = 'block'; // Show menu section again
+                shoppingCartSection.style.display = 'block'; // Show shopping cart section again
+            });
+
+            // Initial load of the cart and set the initial state of the delivery/pickup options
+            loadCart();
+            toggleDeliveryDetails(); // Set initial visibility for delivery details when page loads
+        });
+    </script>
 
 </body>
-
 </html>
