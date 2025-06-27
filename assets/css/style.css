@@ -123,6 +123,7 @@ body {
     font-family: 'Montserrat', sans-serif;
     font-size: 1.5em;
     color: #1b5c0f; /* Dark green */
+    text-align: center;
     margin-top: 20px;
 }
 
@@ -154,8 +155,9 @@ body {
 
 .about-content h2 {
     font-family: 'Montserrat', sans-serif;
-    font-size: 2.5em;
+    font-size: 2.2em;
     color: #4a5c48;
+    text-align: center;
     margin-top: 0;
 }
 
