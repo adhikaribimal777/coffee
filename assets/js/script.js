@@ -176,10 +176,29 @@ document.addEventListener('DOMContentLoaded', () => {
         let postalCode = '';
         let customerLocation = '';
 
-        if (deliveryOption === 'delivery') {
-            postalCode = postalCodeInput.value;
-            customerLocation = customerLocationInput.value;
+        // --- Start of integrated validation from your second script ---
+
+        // Basic validation for required customer details (Name, Email, Phone)
+        if (!customerName || !customerEmail || !customerPhone) {
+            alert('Please fill in all required customer details (Name, Email, Phone).');
+            return; // Stop form submission
         }
+
+        if (deliveryOption === 'delivery') {
+            postalCode = postalCodeInput.value.trim();
+            customerLocation = customerLocationInput.value.trim();
+
+            if (!postalCode) {
+                alert('Please enter a postal code for delivery.');
+                return; // Stop form submission
+            }
+            if (!customerLocation) {
+                alert('Please enter a delivery address.');
+                return; // Stop form submission
+            }
+        }
+        // --- End of integrated validation from your second script ---
+
 
         // Construct order summary with customer details and delivery option
         let orderSummary = "--- Your Order Summary ---\n\n";
@@ -198,6 +217,9 @@ document.addEventListener('DOMContentLoaded', () => {
             orderSummary += `Delivery Address: ${customerLocation}\n`;
         }
         
+        // --- Added final message from your second script ---
+        orderSummary += "\n\nThank you for your order! This is a demo. In a real application, you'd proceed to a secure payment gateway.";
+
         alert(orderSummary); // Display the order summary
 
         // Reset the form and display for a new order
