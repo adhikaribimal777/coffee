@@ -217,6 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
             orderSummary += `Delivery Address: ${customerLocation}\n`;
         }
         
+        
         // --- Added final message from your second script ---
         orderSummary += "\n\nThank you for your order! This is a demo. In a real application, you'd proceed to a secure payment gateway.";
 
@@ -243,3 +244,94 @@ document.addEventListener('DOMContentLoaded', () => {
     pickupRadio.checked = true; // Ensure pickup is selected by default on load
     toggleDeliveryDetails(); // Set initial visibility for delivery details when page loads
 });
+ document.addEventListener('DOMContentLoaded', () => {
+        const deliveryRadio = document.getElementById('delivery-option');
+        const pickupRadio = document.getElementById('pickup-option');
+        const deliveryDetailsGroup = document.getElementById('delivery-details-group');
+        const postalCodeInput = document.getElementById('postal-code');
+        const customerLocationGroup = document.getElementById('customer-location-group');
+        const customerLocationInput = document.getElementById('customer-location');
+        const customerForm = document.getElementById('customer-form');
+
+        // Function to toggle visibility of delivery details (postal code + full address)
+        const toggleDeliveryDetails = () => {
+            if (deliveryRadio.checked) {
+                deliveryDetailsGroup.style.display = 'block';
+                postalCodeInput.setAttribute('required', 'required');
+                customerLocationGroup.style.display = 'none';
+                customerLocationInput.removeAttribute('required');
+            } else {
+                deliveryDetailsGroup.style.display = 'none';
+                postalCodeInput.removeAttribute('required');
+                postalCodeInput.value = '';
+                customerLocationGroup.style.display = 'none';
+                customerLocationInput.removeAttribute('required');
+                customerLocationInput.value = '';
+            }
+        };
+
+        postalCodeInput.addEventListener('input', () => {
+            if (postalCodeInput.value.trim() !== '') {
+                customerLocationGroup.style.display = 'block';
+                customerLocationInput.setAttribute('required', 'required');
+            } else {
+                customerLocationGroup.style.display = 'none';
+                customerLocationInput.removeAttribute('required');
+                customerLocationInput.value = '';
+            }
+        });
+
+        pickupRadio.addEventListener('change', toggleDeliveryDetails);
+        deliveryRadio.addEventListener('change', toggleDeliveryDetails);
+
+        customerForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            // Event listener for the customer form submission
+
+            const customerName = document.getElementById('customer-name').value;
+            const customerEmail = document.getElementById('customer-email').value;
+            const customerPhone = document.getElementById('customer-phone').value;
+            const deliveryOption = document.querySelector('input[name="delivery-pickup"]:checked').value;
+
+            let postalCode = '';
+            let customerLocation = '';
+// Basic validation for required customer details (Name, Email, Phone)
+            if (!customerName || !customerEmail || !customerPhone) {
+                alert('Please fill in all required customer details (Name, Email, Phone).');
+                return;
+            }
+
+            if (deliveryOption === 'delivery') {
+                postalCode = postalCodeInput.value.trim();
+                customerLocation = customerLocationInput.value.trim();
+
+                if (!postalCode) {
+                    alert('Please enter a postal code for delivery.');
+                    return;
+                }
+                if (!customerLocation) {
+                    alert('Please enter a delivery address.');
+                    return;
+                }
+            }
+
+            let orderSummary = "--- Customer Details ---\n";
+            orderSummary += `Name: ${customerName}\nEmail: ${customerEmail}\nPhone: ${customerPhone}`;
+            orderSummary += `\nOrder Type: ${deliveryOption === 'delivery' ? 'Delivery' : 'Pickup'}`;
+
+            if (deliveryOption === 'delivery') {
+                orderSummary += `\nPostal Code: ${postalCode}`;
+                orderSummary += `\nDelivery Address: ${customerLocation}`;
+            }
+
+            orderSummary += "\n\nThank you for your order! This is a demo. In a real application, you'd proceed to a secure payment gateway.";
+
+            alert(orderSummary);
+
+            customerForm.reset();
+            pickupRadio.checked = true;
+            toggleDeliveryDetails();
+        });
+
+        toggleDeliveryDetails();
+    });
