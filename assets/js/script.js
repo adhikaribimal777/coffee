@@ -1,3 +1,4 @@
+// order-online.js
 document.addEventListener('DOMContentLoaded', () => {
     const cartItemsContainer = document.getElementById('cart-items');
     const totalPriceSpan = document.getElementById('total-price');
@@ -8,15 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const orderSection = document.querySelector('.order-section');
     const shoppingCartSection = document.getElementById('shopping-cart-section');
     const customerDetailsSection = document.getElementById('customer-details-section');
-    const customerForm = document.getElementById('customer-form');
-
-    const deliveryRadio = document.getElementById('delivery-option');
-    const pickupRadio = document.getElementById('pickup-option');
-
-    const deliveryDetailsGroup = document.getElementById('delivery-details-group');
-    const postalCodeInput = document.getElementById('postal-code');
-    const customerLocationGroup = document.getElementById('customer-location-group');
-    const customerLocationInput = document.getElementById('customer-location');
 
     let cart = [];
 
@@ -113,7 +105,55 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Delivery/Pickup and Customer Details Logic ---
+    // Modify Checkout button functionality to show customer details form
+    checkoutButton.addEventListener('click', (event) => {
+        event.preventDefault(); // Prevent default link behavior
+        if (cart.length > 0) {
+            // Hide menu and shopping cart, show customer details
+            orderSection.style.display = 'none';
+            shoppingCartSection.style.display = 'none';
+            customerDetailsSection.style.display = 'block';
+            // Note: toggleDeliveryDetails will be handled by the customer-details script
+            // when the customer details section becomes visible.
+        } else {
+            alert('Your cart is empty. Please add items before checking out.');
+        }
+    });
+
+    // Initial load of the cart
+    loadCart();
+
+    // Expose cart and update functions to global scope (or use custom events) if customer-details.js needs direct access
+    // For this separation, we'll assume customer-details.js will grab cart data via localStorage or directly from the DOM
+    window.komorebiCart = {
+        getCart: () => cart,
+        updateCartDisplay: updateCartDisplay,
+        updateCartTotal: updateCartTotal,
+        saveCart: saveCart,
+        clearCart: () => {
+            cart = [];
+            saveCart();
+            updateCartDisplay();
+        },
+        totalPriceSpan: totalPriceSpan // Expose for easy access in customer-details.js
+    };
+});
+// customer-details.js
+document.addEventListener('DOMContentLoaded', () => {
+    const customerDetailsSection = document.getElementById('customer-details-section');
+    const customerForm = document.getElementById('customer-form');
+
+    const deliveryRadio = document.getElementById('delivery-option');
+    const pickupRadio = document.getElementById('pickup-option');
+
+    const deliveryDetailsGroup = document.getElementById('delivery-details-group');
+    const postalCodeInput = document.getElementById('postal-code');
+    const customerLocationGroup = document.getElementById('customer-location-group');
+    const customerLocationInput = document.getElementById('customer-location');
+
+    const orderSection = document.querySelector('.order-section'); // Needed to navigate back
+    const shoppingCartSection = document.getElementById('shopping-cart-section'); // Needed to navigate back
+
 
     // Function to toggle visibility of delivery details (postal code + full address)
     const toggleDeliveryDetails = () => {
@@ -148,22 +188,6 @@ document.addEventListener('DOMContentLoaded', () => {
     pickupRadio.addEventListener('change', toggleDeliveryDetails);
     deliveryRadio.addEventListener('change', toggleDeliveryDetails);
 
-
-    // Modify Checkout button functionality to show customer details form
-    checkoutButton.addEventListener('click', (event) => {
-        event.preventDefault(); // Prevent default link behavior
-        if (cart.length > 0) {
-            // Hide menu and shopping cart, show customer details
-            orderSection.style.display = 'none';
-            shoppingCartSection.style.display = 'none';
-            customerDetailsSection.style.display = 'block';
-            // Ensure delivery details visibility is correctly set when entering customer details
-            toggleDeliveryDetails();
-        } else {
-            alert('Your cart is empty. Please add items before checking out.');
-        }
-    });
-
     // Event listener for the customer form submission
     customerForm.addEventListener('submit', (event) => {
         event.preventDefault(); // Prevent default form submission
@@ -175,8 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let postalCode = '';
         let customerLocation = '';
-
-        // --- Start of integrated validation from your second script ---
 
         // Basic validation for required customer details (Name, Email, Phone)
         if (!customerName || !customerEmail || !customerPhone) {
@@ -197,15 +219,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 return; // Stop form submission
             }
         }
-        // --- End of integrated validation from your second script ---
+
+        // Retrieve cart data from localStorage, as it's saved by order-online.js
+        const storedCart = localStorage.getItem('komorebiCart');
+        let cart = [];
+        if (storedCart) {
+            cart = JSON.parse(storedCart);
+        }
+
+        // Get total price from the DOM, as order-online.js updates it
+        const totalPriceSpan = document.getElementById('total-price');
+        const totalPrice = totalPriceSpan ? totalPriceSpan.textContent : 'N/A';
 
 
         // Construct order summary with customer details and delivery option
         let orderSummary = "--- Your Order Summary ---\n\n";
-        cart.forEach(item => {
-            orderSummary += `${item.name} x ${item.quantity} = ¥${(item.price * item.quantity).toLocaleString()}\n`;
-        });
-        orderSummary += `\nTotal: ¥${totalPriceSpan.textContent}\n\n`;
+        if (cart.length === 0) {
+            orderSummary += "Your cart was empty at the time of submission.\n";
+        } else {
+            cart.forEach(item => {
+                orderSummary += `${item.name} x ${item.quantity} = ¥${(item.price * item.quantity).toLocaleString()}\n`;
+            });
+        }
+        orderSummary += `\nTotal: ¥${totalPrice}\n\n`;
         orderSummary += `--- Customer Details ---\n`;
         orderSummary += `Name: ${customerName}\n`;
         orderSummary += `Email: ${customerEmail}\n`;
@@ -217,16 +253,19 @@ document.addEventListener('DOMContentLoaded', () => {
             orderSummary += `Delivery Address: ${customerLocation}\n`;
         }
         
-        
-        // --- Added final message from your second script ---
         orderSummary += "\n\nThank you for your order! This is a demo. In a real application, you'd proceed to a secure payment gateway.";
 
         alert(orderSummary); // Display the order summary
 
-        // Reset the form and display for a new order
-        cart = []; // Clear the cart
-        saveCart(); // Save the empty cart to localStorage
-        updateCartDisplay(); // Update display (will show empty cart message)
+        // Clear the cart using the exposed function from order-online.js or by clearing localStorage
+        if (window.komorebiCart && typeof window.komorebiCart.clearCart === 'function') {
+            window.komorebiCart.clearCart();
+        } else {
+            // Fallback if order-online.js hasn't loaded or exposed its function
+            localStorage.removeItem('komorebiCart');
+            // You'd also need to manually update the cart display if not relying on order-online.js
+        }
+        
         customerForm.reset(); // Clear the form fields
 
         // Reset delivery/pickup options visibility for the next order
@@ -239,99 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
         shoppingCartSection.style.display = 'block'; // Show shopping cart section again
     });
 
-    // Initial load of the cart and set the initial state of the delivery/pickup options
-    loadCart();
+    // Set initial visibility for delivery details when page loads
     pickupRadio.checked = true; // Ensure pickup is selected by default on load
-    toggleDeliveryDetails(); // Set initial visibility for delivery details when page loads
+    toggleDeliveryDetails();
 });
- document.addEventListener('DOMContentLoaded', () => {
-        const deliveryRadio = document.getElementById('delivery-option');
-        const pickupRadio = document.getElementById('pickup-option');
-        const deliveryDetailsGroup = document.getElementById('delivery-details-group');
-        const postalCodeInput = document.getElementById('postal-code');
-        const customerLocationGroup = document.getElementById('customer-location-group');
-        const customerLocationInput = document.getElementById('customer-location');
-        const customerForm = document.getElementById('customer-form');
-
-        // Function to toggle visibility of delivery details (postal code + full address)
-        const toggleDeliveryDetails = () => {
-            if (deliveryRadio.checked) {
-                deliveryDetailsGroup.style.display = 'block';
-                postalCodeInput.setAttribute('required', 'required');
-                customerLocationGroup.style.display = 'none';
-                customerLocationInput.removeAttribute('required');
-            } else {
-                deliveryDetailsGroup.style.display = 'none';
-                postalCodeInput.removeAttribute('required');
-                postalCodeInput.value = '';
-                customerLocationGroup.style.display = 'none';
-                customerLocationInput.removeAttribute('required');
-                customerLocationInput.value = '';
-            }
-        };
-
-        postalCodeInput.addEventListener('input', () => {
-            if (postalCodeInput.value.trim() !== '') {
-                customerLocationGroup.style.display = 'block';
-                customerLocationInput.setAttribute('required', 'required');
-            } else {
-                customerLocationGroup.style.display = 'none';
-                customerLocationInput.removeAttribute('required');
-                customerLocationInput.value = '';
-            }
-        });
-
-        pickupRadio.addEventListener('change', toggleDeliveryDetails);
-        deliveryRadio.addEventListener('change', toggleDeliveryDetails);
-
-        customerForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            // Event listener for the customer form submission
-
-            const customerName = document.getElementById('customer-name').value;
-            const customerEmail = document.getElementById('customer-email').value;
-            const customerPhone = document.getElementById('customer-phone').value;
-            const deliveryOption = document.querySelector('input[name="delivery-pickup"]:checked').value;
-
-            let postalCode = '';
-            let customerLocation = '';
-// Basic validation for required customer details (Name, Email, Phone)
-            if (!customerName || !customerEmail || !customerPhone) {
-                alert('Please fill in all required customer details (Name, Email, Phone).');
-                return;
-            }
-
-            if (deliveryOption === 'delivery') {
-                postalCode = postalCodeInput.value.trim();
-                customerLocation = customerLocationInput.value.trim();
-
-                if (!postalCode) {
-                    alert('Please enter a postal code for delivery.');
-                    return;
-                }
-                if (!customerLocation) {
-                    alert('Please enter a delivery address.');
-                    return;
-                }
-            }
-
-            let orderSummary = "--- Customer Details ---\n";
-            orderSummary += `Name: ${customerName}\nEmail: ${customerEmail}\nPhone: ${customerPhone}`;
-            orderSummary += `\nOrder Type: ${deliveryOption === 'delivery' ? 'Delivery' : 'Pickup'}`;
-
-            if (deliveryOption === 'delivery') {
-                orderSummary += `\nPostal Code: ${postalCode}`;
-                orderSummary += `\nDelivery Address: ${customerLocation}`;
-            }
-
-            orderSummary += "\n\nThank you for your order! This is a demo. In a real application, you'd proceed to a secure payment gateway.";
-
-            alert(orderSummary);
-
-            customerForm.reset();
-            pickupRadio.checked = true;
-            toggleDeliveryDetails();
-        });
-
-        toggleDeliveryDetails();
-    });
