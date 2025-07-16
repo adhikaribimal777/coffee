@@ -443,7 +443,10 @@ body {
     margin-left: 15px;
     transition: background-color 0.3s ease;
 }
-
+.take-out-section {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("/assets/images/food-packing.png");
+    ...
+}
 .remove-item-button:hover {
     background-color: #c0392b;
 }
