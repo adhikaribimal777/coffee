@@ -63,7 +63,7 @@ body {
 
 /* --- Hero Section (for index.html) --- */
 .hero-section {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/assets/images/download.jpeg');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('./assets/images/download.jpeg');
     background-size: cover;
     background-position: center;
     color: white;
