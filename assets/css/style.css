@@ -73,6 +73,7 @@ body {
     height: 90vh;
 }
 
+
 .hero-content h1 {
     font-family: 'Montserrat', sans-serif;
     font-size: 3.5em;
@@ -209,16 +210,17 @@ body {
     background-position: center;
     color: white;
     display: flex;
-    flex-direction: column; /* Ensure content stacks vertically */
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    height: 90vh; /* Retained user's height */
-    padding: 60px 20px; /* Added padding for content spacing */
+    height: 90vh;
+    padding: 60px 20px;
     border-radius: 8px;
     margin-top: 30px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
+
 
 .take-out-content h2 {
     font-family: 'Montserrat', sans-serif;
