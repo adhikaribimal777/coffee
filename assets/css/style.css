@@ -62,7 +62,7 @@ body {
 }
 /* --- Hero Section (for index.html) --- */
 .hero-section {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("./assets/images/download.jpeg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("../images/download.jpeg");
     background-size: cover;
     background-position: center;
     color: white;
@@ -205,8 +205,7 @@ body {
 
 /* --- Take Out Section (for index.html) --- */
 .take-out-section {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("/assets/images/food-packing.png");
-    background-size: cover;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),url("../images/food-packing.png");
     background-position: center;
     color: white;
     display: flex;
