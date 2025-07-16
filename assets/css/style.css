@@ -206,19 +206,17 @@ body {
 /* --- Take Out Section (for index.html) --- */
 .take-out-section {
     background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("../images/packing.jpeg");
+      background-size: cover;
     background-position: center;
     color: white;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
     height: 90vh;
-    padding: 60px 20px;
-    border-radius: 8px;
-    margin-top: 30px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    padding: 0 20px; /* Added padding for consistency */
 }
+
 
 
 .take-out-content h2 {
