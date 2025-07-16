@@ -205,7 +205,7 @@ body {
 
 /* --- Take Out Section (for index.html) --- */
 .take-out-section {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),url("../images/food-packing.png");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("../images/packing.jpeg");
     background-position: center;
     color: white;
     display: flex;
@@ -444,21 +444,7 @@ body {
     margin-left: 15px;
     transition: background-color 0.3s ease;
 }
-.take-out-section {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("../images/packing.jpeg");
-    background-position: center;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: 90vh;
-    padding: 60px 20px;
-    border-radius: 8px;
-    margin-top: 30px;
-    box-shadow: 0 4px 15px rgba(0, 0,
-}
+
 .remove-item-button:hover {
     background-color: #c0392b;
 }
