@@ -67,7 +67,7 @@ body {
     background-position: center;
     color: white;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     text-align: center;
     height: 90vh;
